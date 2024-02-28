@@ -25,37 +25,37 @@ const getUserById = async (req, res) => {
 
 const addUser = (req, res) => {
   const {
-    Name_EN,
-    Name_RU, 
-    Position, 
-    Department,
-    Location,
-    Email,
-    Internal_phone,
-    Mobile_phone,
-    Actual_location,
-    Birthday,
+    name_en,
+    name_ru, 
+    position, 
+    department,
+    location,
+    email,
+    internal_phone,
+    mobile_phone,
+    actual_location,
+    birthday,
   } = req.body;
 
-  pool.query(queries.checkEmailExists, [Email], (err, results) => {
+  pool.query(queries.checkEmailExists, [email], (err, results) => {
     if (results.rows.length) {
       res.send("User already exists");
     }
 
     pool.query(queries.addUser, [
-      Name_EN, 
-      Name_RU, 
-      Position, 
-      Department,
-      Location,
-      Email,
-      Internal_phone,
-      Mobile_phone,
-      Actual_location,
-      Birthday,
+      name_en, 
+      name_ru, 
+      position, 
+      department,
+      location,
+      email,
+      internal_phone,
+      mobile_phone,
+      actual_location,
+      birthday,
       ], (err, results) => {
         if (err) {
-          res.send("Error");
+          res.status(402).send("SSYKA");
         }
 
         res.status(200).send("User added successfully");
@@ -64,8 +64,43 @@ const addUser = (req, res) => {
   });
 };
 
+const removeUser = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  pool.query(queries.getUserById, [id], (err, results) => {
+    const noUserFound = !results.rows.length;
+    if (noUserFound) {
+      res.status(404).send("User does not exist in database");
+    }
+
+    pool.query(queries.removeUser, [id], (err, results) => {
+      if (err) throw new Error();
+      res.status(200).send("User removed successfully");
+    });
+  });
+};
+
+const updateUser = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name_en } = req.body;
+
+  pool.query(queries.getUserById, [id], (err, results) => {
+    const noUserFound = !results.rows.length;
+    if (noUserFound) {
+      res.status(404).send("User does not exist in database");
+    }
+
+    pool.query(queries.updateUser, [name_en, id], (err, results) => {
+      if (err) throw new Error();
+      res.status(200).send("User updated successfully");
+    });
+  });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   addUser,
+  removeUser,
+  updateUser
 };
