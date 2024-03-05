@@ -2,7 +2,6 @@ const express = require("express");
 const userRoutes = require("./src/user/routes");
 const app = express();
 const PORT = process.env.SERVER_PORT || 3001;
-const QWERT = process.env.DB_SECRET;
 
 app.use(express.json());
 
