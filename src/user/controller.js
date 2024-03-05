@@ -3,7 +3,24 @@ const queries = require("./queries");
 
 const getUsers = async (req, res) => {
   try {
+
+      const qwert = await pool.query(queries.getUsersCount);
+      const { count } = qwert;
+
       const result = await pool.query(queries.getUsers);
+      res.status(200).json(result.rows);
+
+  } catch (error) {
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const paginationUser = async (req, res) => {
+  const from = parseInt(req.params.from);
+  const to = parseInt(req.params.to);
+  try {
+      const result = await pool.query(queries.paginationUser, [from, to]);
       res.status(200).json(result.rows);
   } catch (error) {
       console.error('Error executing query', error);
@@ -102,5 +119,6 @@ module.exports = {
   getUserById,
   addUser,
   removeUser,
-  updateUser
+  updateUser,
+  paginationUser
 };
