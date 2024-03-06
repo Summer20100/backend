@@ -1,5 +1,5 @@
 //const getUsers = "SELECT * FROM users WHERE id >= 1 AND id <= 1800";
-const getUsers = "SELECT * FROM users LIMIT 50";
+const getUsers = "SELECT * FROM users ORDER BY id LIMIT 50";
 
 const getUsersCount = "SELECT COUNT(*) FROM users";
 
