@@ -4,6 +4,9 @@ const getUsers = "SELECT * FROM users LIMIT 50";
 const getUsersCount = "SELECT COUNT(*) FROM users";
 
 const getUserById = "SELECT * FROM users WHERE id=$1";
+
+const getUserByName = "SELECT * FROM users WHERE name_en ILIKE '$1'";
+
 const checkEmailExists = "SELECT u FROM users u WHERE u.email = $1";
 const addUser = "INSERT INTO users (name_en,name_ru,position,department,location,email,internal_phone,mobile_phone,actual_location,birthday) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
 const removeUser = "DELETE FROM users WHERE id = $1";
@@ -18,5 +21,6 @@ module.exports ={
   removeUser,
   updateUser,
   paginationUser,
-  getUsersCount
+  getUsersCount,
+  getUserByName
 };

@@ -40,6 +40,18 @@ const getUserById = async (req, res) => {
   }
 };
 
+const getUserByName = async (req, res) => {
+  const name = `%${req.params.name}%`;
+
+  try {
+      const result = await pool.query(queries.getUserByName, [name]);
+      res.status(200).json(result.rows);
+  } catch (error) {
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 const addUser = (req, res) => {
   const {
     name_en,
@@ -120,5 +132,6 @@ module.exports = {
   addUser,
   removeUser,
   updateUser,
-  paginationUser
+  paginationUser,
+  getUserByName
 };
