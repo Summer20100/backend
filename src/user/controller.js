@@ -3,10 +3,6 @@ const queries = require("./queries");
 
 const getUsers = async (req, res) => {
   try {
-
-      const qwert = await pool.query(queries.getUsersCount);
-      const { count } = qwert;
-
       const result = await pool.query(queries.getUsers);
       res.status(200).json(result.rows);
 
