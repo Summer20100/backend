@@ -44,16 +44,34 @@ const getUserById = async (req, res) => {
 
   if (req.params.id === 'search') {
     const name = `%${req.query.name}%`;
+    
     try {
-      const result = await pool.query(queries.getUserByName, [name]);
+      const { page = 1, size = 50} = req.query;
+      const offset = (page - 1) * size;
+      const result = await pool.query(queries.getUserByName, [name, offset, size]);
+      const resultCount = await pool.query(queries.getUserByNameCount, [name]);
+
+      const countResult = resultCount.rows[0].count;
+      const totalCount = parseInt(countResult);
+      const totalPages = Math.ceil(totalCount / size);
+
+      const response = {
+        totalPages,
+        currentPage: parseInt(page),
+        pageSize: parseInt(size),
+        totalCount,
+        data: result.rows,
+      };
+
       if (result.rows.length > 0) {
-        res.status(200).json(result.rows);
+        res.status(200).json(response);
       } else {
         console.error('Error executing query', error);
         res.status(404).json({ error: `User with name = ${name} does not exist` }); 
       }
     } catch {
-      res.status(200).json({ error: `User with name = ${name} does not exist or incorrect name` });
+      console.error(`User with name ${req.query.name} does not exist or incorrect name`);
+      res.status(200).json({ error: `User with name ${req.query.name} does not exist or incorrect name` });
     }
   } else {
     try {

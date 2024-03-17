@@ -5,7 +5,8 @@ const getUsers = "SELECT * FROM users ORDER BY id OFFSET $1 LIMIT $2";
 
 const getUserById = "SELECT * FROM users WHERE id=$1";
 
-const getUserByName = "SELECT * FROM users WHERE name_en ILIKE $1 OR name_ru ILIKE $1";
+const getUserByName = "SELECT * FROM users WHERE name_en ILIKE $1 OR name_ru ILIKE $1 ORDER BY id OFFSET $2 LIMIT $3";
+const getUserByNameCount = "SELECT COUNT(*) FROM users WHERE name_en ILIKE $1 OR name_ru ILIKE $1";
 
 const checkEmailExists = "SELECT u FROM users u WHERE u.email = $1";
 const addUser = "INSERT INTO users (name_en,name_ru,position,department,location,email,internal_phone,mobile_phone,actual_location,birthday) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
@@ -22,4 +23,5 @@ module.exports ={
   updateUser,
   paginationUser,
   getUserByName,
+  getUserByNameCount
 };
