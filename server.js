@@ -36,5 +36,5 @@ app.get("/", (req, res) => {
 app.use(`/${process.env.DB_SECRET}/api/v1/users`, userRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port http://localhost:${PORT}`);
 });
