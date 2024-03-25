@@ -112,7 +112,7 @@ const addUser = async (req, res) => {
     res.status(201).json({ success: 'User added successfully' });
   } catch (error) {
     console.error('Error adding user:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Fill all information' });
   }
 };
 
