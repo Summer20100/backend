@@ -6,7 +6,7 @@ const getUsers = async (req, res) => {
   const offset = (page - 1) * size;
 
   try {
-    const countResult = await pool.query('SELECT COUNT(*) FROM users');
+    const countResult = await pool.query('SELECT COUNT(*) FROM users_db');
     const totalCount = parseInt(countResult.rows[0].count);
     const totalPages = Math.ceil(totalCount / size);
     const result = await pool.query(queries.getUsers, [offset, size]);
