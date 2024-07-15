@@ -1,5 +1,8 @@
 const express = require("express");
 const userRoutes = require("./src/user/routes");
+const routeHall = require("./routes/routeHall");
+const routeChair = require("./routes/routeChair");
+
 const app = express();
 const PORT = process.env.SERVER_PORT || 3001;
 const cors = require('cors');
@@ -34,6 +37,8 @@ app.get("/", (req, res) => {
 //app.use(`/${process.env.DB_SECRET}/api/v1/users`, cors(corsOptions), userRoutes);
 
 app.use(`/${process.env.DB_SECRET}/api/v1/users`, userRoutes);
+app.use("/api/chair", routeChair);
+app.use("/api/hall", routeHall);
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
